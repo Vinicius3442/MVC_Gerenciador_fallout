@@ -26,11 +26,12 @@ $acao = $_GET['acao'] ?? 'listar';
 
     <div class="container">
         <div class="header-menu">
-            <a href="index.php?acao=listar" class="<?= ($acao === 'listar' || $acao === 'excluir') ? 'active' : '' ?>">INVENTÁRIO</a>
-            <a href="index.php?acao=adicionar" class="<?= ($acao === 'adicionar') ? 'active' : '' ?>">REGISTRAR</a>
-            <a href="index.php?acao=mapa" class="<?= ($acao === 'mapa') ? 'active' : '' ?>">MAPA</a>
-            <a href="index.php?acao=dados" class="<?= ($acao === 'dados') ? 'active' : '' ?>">DADOS</a>
-            <a href="index.php?acao=radio" class="<?= ($acao === 'radio') ? 'active' : '' ?>">RÁDIO</a>
+            <a href="index.php?acao=stats" class="<?= ($acao === 'stats') ? 'active' : '' ?>">STAT</a>
+            <a href="index.php?acao=listar" class="<?= ($acao === 'listar' || $acao === 'excluir') ? 'active' : '' ?>">INV</a>
+            <a href="index.php?acao=adicionar" class="<?= ($acao === 'adicionar') ? 'active' : '' ?>">REGIST</a>
+            <a href="index.php?acao=dados" class="<?= ($acao === 'dados') ? 'active' : '' ?>">DATA</a>
+            <a href="index.php?acao=mapa" class="<?= ($acao === 'mapa') ? 'active' : '' ?>">MAP</a>
+            <a href="index.php?acao=radio" class="<?= ($acao === 'radio') ? 'active' : '' ?>">RADIO</a>
         </div>
 
         <?= $content ?? '' ?>

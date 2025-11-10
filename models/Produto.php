@@ -7,10 +7,18 @@ class Produto {
     }
 
     public function listar() {
-        $stmt = $this->pdo->query("SELECT * FROM produtos ORDER BY nome");
+        // Mude de "ORDER BY nome" para "ORDER BY categoria, nome"
+        $stmt = $this->pdo->query("SELECT * FROM produtos ORDER BY categoria, nome");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    public function getCountByName($itemName) {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) as total FROM produtos WHERE nome = ?");
+        $stmt->execute([$itemName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Retorna o total. Se não houver, retorna 0.
+        return $result['total'] ?? 0;
+    }
     public function buscarPorId($id) {
         $stmt = $this->pdo->prepare("SELECT * FROM produtos WHERE id = ?");
         $stmt->execute([$id]);

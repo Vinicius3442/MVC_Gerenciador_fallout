@@ -19,6 +19,9 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 
 // Roteamento (isto está perfeito)
 switch ($acao) {
+    case 'stats':
+        $controller->stats();
+        break;
     case 'adicionar':
         $controller->adicionar();
         break;
@@ -41,7 +44,7 @@ switch ($acao) {
         $controller->radio();
         break;
     default:
-        $controller->listar();
+        $controller->stats();
         break;
 }
 ?>

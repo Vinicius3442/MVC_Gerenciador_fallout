@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-
+    
     // 1. Pegar os elementos
     const vaultBoy = document.getElementById('loadingVaultBoy');
     const overlay = document.getElementById('loading-overlay');
@@ -91,5 +91,63 @@ document.addEventListener('DOMContentLoaded', (event) => {
             setTimeout(() => playBlipAndSubmit(form), loadingTime);
         });
     });
+    
+    // --- LÓGICA DO INVENTÁRIO PIP-BOY (2 PAINÉIS) ---
+    
+    // Pega todos os botões de sub-nav e todas as listas
+    const subNavItems = document.querySelectorAll('.sub-nav-item');
+    const itemLists = document.querySelectorAll('.item-lists .item-list');
+    
+    // Pega os elementos do painel da direita (detalhes)
+    const detailNome = document.getElementById('detail-nome');
+    const detailPreco = document.getElementById('detail-preco');
+    const detailCategoria = document.getElementById('detail-categoria');
+    const detailEditBtn = document.getElementById('detail-edit');
+    const detailDeleteBtn = document.getElementById('detail-delete');
 
+    // 1. Lógica para trocar as abas de categoria (Lixo, Cura, etc)
+    subNavItems.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault(); // Impede o link de pular a página
+            
+            // Pega o nome da categoria do atributo data-
+            const category = tab.getAttribute('data-category');
+            
+            // Remove 'active' de todas as abas e listas
+            subNavItems.forEach(item => item.classList.remove('active'));
+            itemLists.forEach(list => list.classList.remove('active'));
+            
+            // Adiciona 'active' na aba clicada e na lista correspondente
+            tab.classList.add('active');
+            document.getElementById(`list-${category}`).classList.add('active');
+        });
+    });
+
+    // 2. Lógica para mostrar detalhes do item ao clicar
+    const allItems = document.querySelectorAll('.inventory-item');
+    
+    allItems.forEach(item => {
+        item.addEventListener('click', () => {
+            
+            // Remove 'selected' de todos os itens
+            allItems.forEach(i => i.classList.remove('selected'));
+            // Adiciona 'selected' no item clicado
+            item.classList.add('selected');
+            
+            // Pega os dados do item (guardados nos atributos data-)
+            const id = item.getAttribute('data-id');
+            const nome = item.getAttribute('data-nome');
+            const preco = item.getAttribute('data-preco');
+            const categoria = item.getAttribute('data-categoria');
+            
+            // Preenche o painel da direita com os dados
+            detailNome.textContent = nome;
+            detailPreco.textContent = preco;
+            detailCategoria.textContent = categoria;
+            
+            // Atualiza os links de Editar/Excluir
+            detailEditBtn.href = `index.php?acao=editar&id=${id}`;
+            detailDeleteBtn.href = `index.php?acao=excluir&id=${id}`;
+        });
+    });
 });

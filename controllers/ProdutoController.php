@@ -42,14 +42,44 @@ class ProdutoController {
 
     // Ação: Listar produtos
     public function listar() {
+        $produtos = $this->produtoModel->listar(); // Pega a lista ordenada
+        
+        // --- NOVO: Agrupa os produtos por categoria ---
+        $produtosAgrupados = [];
+        foreach ($produtos as $produto) {
+            // Se a categoria for nula ou vazia, agrupa em 'Outros'
+            $categoria = $produto['categoria'] ?: 'OUTROS';
+            
+            // Cria o array da categoria se ele não existir
+            if (!isset($produtosAgrupados[$categoria])) {
+                $produtosAgrupados[$categoria] = [];
+            }
+            // Adiciona o produto a sua categoria
+            $produtosAgrupados[$categoria][] = $produto;
+        }
+        // --- FIM DO NOVO BLOCO ---
+
         $data = [
-            'produtos' => $this->produtoModel->listar(),
-            'pageTitle' => 'SISTEMA R.O.B.CO - INVENTÁRIO' // Título para o template
+            // Envia o array AGRUPADO para a view, e não mais $produtos
+            'produtosAgrupados' => $produtosAgrupados, 
+            'pageTitle' => 'SISTEMA R.O.B.CO - INVENTÁRIO'
         ];
         
         $this->carregarViewComTemplate('listar.php', $data);
     }
+    public function stats() {
+        // Busca os dados do model
+        $stimpakCount = $this->produtoModel->getCountByName('Stimpak');
+        $radawayCount = $this->produtoModel->getCountByName('RadAway');
 
+        $data = [
+            'stimpakCount' => $stimpakCount,
+            'radawayCount' => $radawayCount,
+            'pageTitle' => 'SISTEMA R.O.B.CO - STATUS'
+        ];
+        // Carrega a nova view 'stats.php'
+        $this->carregarViewComTemplate('stats.php', $data);
+    }
     // Ação: Adicionar produto
     public function adicionar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

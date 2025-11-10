@@ -1,26 +1,78 @@
-<h1>[ TERMINAL DE GERENCIAMENTO ]</h1>
+<h1>[ INVENTÁRIO ]</h1>
 
-<div class="novo-produto">
-    <a href="index.php?acao=adicionar"></a>
+<div class="pipboy-layout">
+
+    <div class="pipboy-left">
+        
+        <div class="sub-nav">
+            <?php 
+                $first = true;
+                foreach ($produtosAgrupados as $categoria => $itens): 
+            ?>
+                <a href="#" 
+                   class="sub-nav-item <?= $first ? 'active' : '' ?>" 
+                   data-category="<?= htmlspecialchars($categoria) ?>">
+                   <?= htmlspecialchars($categoria) ?> (<?= count($itens) ?>)
+                </a>
+            <?php 
+                $first = false; 
+                endforeach; 
+            ?>
+        </div>
+
+        <div class="inventory-header">
+            <span>ITEM</span>
+            <span class="header-value">VALOR</span>
+        </div>
+        
+        <div class="item-lists">
+            <?php 
+                $first = true;
+                foreach ($produtosAgrupados as $categoria => $itens): 
+            ?>
+                <ul class="item-list <?= $first ? 'active' : '' ?>" 
+                    id="list-<?= htmlspecialchars($categoria) ?>">
+                    
+                    <?php foreach ($itens as $produto): ?>
+                        <li class="inventory-item"
+                            data-id="<?= $produto['id'] ?>"
+                            data-nome="<?= htmlspecialchars($produto['nome']) ?>"
+                            data-preco="<?= number_format($produto['preco'], 0, ',', '.') ?>"
+                            data-categoria="<?= htmlspecialchars($produto['categoria']) ?>">
+                            
+                            <span class="item-name"><?= htmlspecialchars($produto['nome']) ?></span>
+                            <span class="item-value"><?= number_format($produto['preco'], 0, ',', '.') ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php 
+                $first = false; 
+                endforeach; 
+            ?>
+        </div>
+        
+    </div>
+
+    <div class="pipboy-right">
+
+        <div class="item-model-view">
+            <img src="img/pipboy.gif"
+                 alt="Vault Boy" 
+                 class="item-model-gif" />
+        </div>
+
+        <div class="item-stats-view">
+            <h2 id="detail-nome">// SELECIONE UM ITEM //</h2>
+            <hr classC="pipboy-hr-short">
+            <p>VALOR: <span id="detail-preco">--</span> CAPS</p>
+            <p>CATEGORIA: <span id="detail-categoria">--</span></p>
+
+            <div class="item-actions-static">
+                <a id="detail-edit" href="#" class="editar">[EDITAR]</a>
+                <a id="detail-delete" href="#" class="excluir">[EXCLUIR]</a>
+            </div>
+        </div>
+        
+    </div>
+
 </div>
-
-<table>
-    <tr>
-        <th>Nome do Item</th>
-        <th>Valor (Caps)</th>
-        <th>Categoria</th>
-        <th>Ações</th>
-    </tr>
-    
-    <?php foreach ($produtos as $produto): ?>
-    <tr>
-        <td><?= htmlspecialchars($produto['nome']) ?></td>
-        <td><?= number_format($produto['preco'], 0, ',', '.') ?> Caps</td>
-        <td><?= htmlspecialchars($produto['categoria']) ?></td>
-        <td class="acoes">
-            <a class="editar" href="index.php?acao=editar&id=<?= $produto['id'] ?>">[Editar]</a>
-            <a class="excluir" href="index.php?acao=excluir&id=<?= $produto['id'] ?>">[Excluir]</a>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
