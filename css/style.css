@@ -42,6 +42,9 @@ body {
     padding: 15px;
     box-shadow: 0 0 20px #32FF32 inset;
     background-color: rgba(0, 20, 0, 0.1);
+    
+    /* --- ADICIONE ESTA LINHA --- */
+    animation: screenOn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940);
 }
 
 h1 {
@@ -103,6 +106,7 @@ th {
     margin-bottom: 20px;
     font-size: 24px;
 }
+
 .novo-produto a::before {
     content: "[+ ADICIONAR ITEM]";
 }
@@ -196,28 +200,118 @@ button:hover {
     text-shadow: none;
 }
 
-/* --- VAULT BOY CARREGANDO --- */
 .loading-vault-boy {
-    position: fixed; /* Fixa na tela */
+    position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 100px; /* Tamanho do Vault Boy */
+    width: 100px; /* Ajuste o tamanho se necessário */
     height: auto;
-    display: none; /* Começa escondido, JS vai mostrar */
-    animation: walkAndFlicker 1s infinite steps(1); /* Animação de caminhada */
-    filter: drop-shadow(0 0 5px #32FF32); /* Brilho verde */
-    z-index: 1000;
+    display: none; /* COMEÇA ESCONDIDO */
+    z-index: 1002;
 }
 
-@keyframes walkAndFlicker {
-    0% { transform: translateX(0px) translateY(0px) rotate(0deg); opacity: 0.8; }
-    25% { transform: translateX(5px) translateY(-2px) rotate(2deg); opacity: 1; }
-    50% { transform: translateX(0px) translateY(0px) rotate(0deg); opacity: 0.8; }
-    75% { transform: translateX(-5px) translateY(2px) rotate(-2deg); opacity: 1; }
-    100% { transform: translateX(0px) translateY(0px) rotate(0deg); opacity: 0.8; }
+/* Classe que o JavaScript vai adicionar */
+.loading-vault-boy.vb-show {
+    display: block;
+}
+#loading-overlay {
+    display: none; /* Começa escondido */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 20, 0, 0.7); /* Verde escuro, 70% opaco */
+    z-index: 1001; /* Acima de tudo, exceto do Vault Boy */
+    backdrop-filter: blur(1px); /* Desfoca o que está atrás */
 }
 
-/* --- Título dentro do container (para o Vault Boy não ficar embaixo) --- */
-.container h1 {
-    margin-top: 0;
+#loading-overlay.vb-show {
+    display: block;
+
+    /* "Pontinhos pretos" (Static Noise) */
+    /* Isto usa um SVG embutido para gerar "ruído" aleatório */
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPgo8ZmlsdGVyIGlkPSJub2lzZSI+CiAgPGZlVHVyYnVsZW5jZSB0eXBlPSJ0dXJidWxlbmNlIiBiYXNlRnJlcXVlbmN5PSIwLjgyIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiAvPgo8L2ZpbHRlcj4KPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbHRlcj0idXJsKCNub2lzZSIgb3BhY2l0eT0iMC4xNSIgLz4KPC9zdmc+");
+}
+/* --- NOVAS ANIMAÇÕES DE GLITCH (CRT TV) --- */
+
+/* 1. Distorção da "tela" (pulos, cortes e skew) */
+@keyframes crt-distort {
+    0%, 100% { transform: translate(0, 0); }
+    5% { transform: translate(4px, -3px) skewX(2deg); }
+    10% { transform: translate(0, 0); }
+    20% { transform: translate(-3px, 2px) skewX(-1deg); }
+    25% { transform: translate(0, 0); }
+    35% { transform: translate(2px, 1px) skewY(1deg); }
+    40% { transform: translate(0, 0); }
+
+    /* Linha de "corte" rolando */
+    40.1% { clip-path: inset(70% 0 10% 0); }
+    40.3% { clip-path: inset(0 0 0 0); } /* Reseta */
+
+    50% { transform: translate(-5px, -1px) skewX(3deg); }
+    55% { transform: translate(0, 0); }
+    70% { transform: translate(4px, 4px) skewY(-2deg); }
+    75% { transform: translate(0, 0); }
+
+    /* Outra linha de "corte" */
+    75.1% { clip-path: inset(20% 0 75% 0); }
+    75.3% { clip-path: inset(0 0 0 0); } /* Reseta */
+}
+
+/* 2. Distorção das "camadas de cor" (só afeta o texto) */
+@keyframes crt-colorshift {
+    0%, 100% {
+        text-shadow: 0 0 5px #32FF32, 0 0 10px #32FF32;
+    }
+    10% {
+        /* Separação Vermelho/Ciano */
+        text-shadow: 2px 0 2px rgba(255, 0, 0, 0.7), -2px 0 2px rgba(0, 255, 255, 0.7);
+    }
+    20% {
+        text-shadow: 0 0 5px #32FF32, 0 0 10px #32FF32;
+    }
+    40% {
+        /* Separação Verde/Magenta */
+        text-shadow: 1px 0 1px rgba(0, 255, 0, 0.7), -1px 0 1px rgba(255, 0, 255, 0.7);
+    }
+    50% {
+        text-shadow: 0 0 5px #32FF32, 0 0 10px #32FF32;
+    }
+    70% {
+        text-shadow: 2px 0 2px rgba(255, 0, 0, 0.7), -2px 0 2px rgba(0, 255, 255, 0.7);
+    }
+    80% {
+        text-shadow: 0 0 5px #32FF32, 0 0 10px #32FF32;
+    }
+}
+
+/* 3. Aplica as animações (o JS ativa esta classe) */
+.container.glitching {
+    /* Roda a distorção da "tela" */
+    animation: crt-distort 0.4s infinite linear;
+}
+
+/* Aplica a separação de cor em todos os elementos de texto dentro do container */
+.container.glitching h1,
+.container.glitching p,
+.container.glitching a,
+.container.glitching th,
+.container.glitching td,
+.container.glitching label,
+.container.glitching button {
+    /* Roda a distorção de cor */
+    animation: crt-colorshift 0.3s infinite linear;
+}
+@keyframes screenOn {
+    from {
+        opacity: 0;
+        /* Começa bem pequeno (do centro) */
+        transform: scale(0.2); 
+    }
+    to {
+        opacity: 1;
+        /* Termina no tamanho normal */
+        transform: scale(1);
+    }
 }
