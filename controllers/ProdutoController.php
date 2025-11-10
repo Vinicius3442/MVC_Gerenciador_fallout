@@ -90,5 +90,33 @@ class ProdutoController {
         $this->produtoModel->excluir($id);
         header('Location: index.php');
     }
+    public function mapa() {
+        $data = [
+            'pageTitle' => 'SISTEMA R.O.B.CO - MAPA'
+        ];
+        // Carrega a nova view 'mapa.php'
+        $this->carregarViewComTemplate('mapa.php', $data);
+    }
+    public function dados() {
+        // Busca os dados das duas funções do model
+        $categorias = $this->produtoModel->contarPorCategoria();
+        $stats = $this->produtoModel->getInventarioStats();
+
+        $data = [
+            'categorias' => $categorias,
+            'stats'      => $stats, // <-- Passando as novas stats
+            'pageTitle'  => 'SISTEMA R.O.B.CO - DADOS'
+        ];
+        
+        $this->carregarViewComTemplate('dados.php', $data);
+    }
+    // Ação: Rádio
+    public function radio() {
+        $data = [
+            'pageTitle' => 'SISTEMA R.O.B.CO - RÁDIO'
+        ];
+        // Carrega a nova view 'radio.php'
+        $this->carregarViewComTemplate('radio.php', $data);
+    }
 }
 ?>

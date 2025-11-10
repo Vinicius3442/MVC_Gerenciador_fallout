@@ -29,6 +29,17 @@ switch ($acao) {
         $controller->excluir($id);
         break;
     case 'listar':
+        $controller->listar();
+        break;
+    case 'dados':
+        $controller->dados();
+        break;
+    case 'mapa':
+        $controller->mapa();
+        break;
+    case 'radio':
+        $controller->radio();
+        break;
     default:
         $controller->listar();
         break;

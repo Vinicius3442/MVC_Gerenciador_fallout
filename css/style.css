@@ -34,7 +34,16 @@ body {
     text-transform: uppercase;
     text-shadow: 0 0 5px #32FF32, 0 0 10px #32FF32;
 }
-
+.chart-container {
+    position: relative; /* <-- ADICIONE ISSO */
+    width: 80%;       /* Ajustado para 80% */
+    height: 400px;      /* <-- ADICIONE ISSO (ou o tamanho que preferir) */
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 2px solid #32FF32;
+    background-color: rgba(0, 20, 0, 0.2);
+}
 .container {
     width: 90%;
     margin: 20px auto;
@@ -46,7 +55,107 @@ body {
     /* --- ADICIONE ESTA LINHA --- */
     animation: screenOn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940);
 }
+.tuning-box {
+    border: 2px solid #32FF32;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 20, 0, 0.2);
+}
 
+.tuning-box label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+.stat-card-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.stat-card {
+    flex-basis: 30%; /* Três colunas */
+    min-width: 180px; /* Para telas menores */
+    border: 2px solid #32FF32;
+    padding: 15px;
+    margin: 5px;
+    background-color: rgba(0, 20, 0, 0.2);
+    text-align: center;
+}
+.stat-card h3 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #64FF64; /* Verde mais claro para título */
+}
+.stat-card p {
+    font-size: 32px;
+    margin: 0;
+}
+.stat-card span { /* Para o preço do item mais caro */
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+/* --- MÓDULO DE CLIMA --- */
+.weather-module {
+    border: 2px solid #32FF32;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: rgba(0, 20, 0, 0.2);
+}
+.weather-module h3 {
+    font-size: 24px;
+    margin: 0 0 15px 0;
+}
+.weather-module p {
+    font-size: 20px;
+    margin: 5px 0;
+}
+/* --- PÁGINA DO MAPA (IFRAME) --- */
+.map-wrapper {
+    /* Define uma altura fixa. Ajuste se precisar. */
+    height: 60vh; 
+    min-height: 450px;
+    border: 3px solid #32FF32;
+    background-color: #000; /* Fundo preto caso o iframe demore */
+}
+
+.map-wrapper iframe {
+    /* O "truque" do Pip-Boy!
+      hue-rotate: "gira" as cores do site (azul vira verde)
+      saturate/contrast: aumenta o "brilho" verde
+      brightness: escurece um pouco para não doer os olhos
+    */
+    filter: hue-rotate(90deg) saturate(10) contrast(1.5) brightness(0.7);
+    
+    /* Remove a borda branca feia que alguns navegadores colocam */
+    display: block; 
+}
+/* --- Separador Temático --- */
+hr.pipboy-hr {
+    border: 0;
+    height: 2px;
+    background-color: #32FF32;
+    margin: 30px 0;
+    opacity: 0.5;
+    box-shadow: 0 0 10px #32FF32;
+}
+.tuning-box input[type="text"] {
+    /* Reutiliza o estilo dos formulários *
+    width: 95%; /* Ajuste para caber no padding */
+    margin-bottom: 15px;
+}
+
+.tuning-box button {
+
+    font-size: 24px;
+    width: 100%;
+}
+
+.radio-player {
+    text-align: center;
+    padding: 30px 20px;
+}
 h1 {
     text-align: center;
     font-size: 48px;
@@ -314,4 +423,78 @@ button:hover {
         /* Termina no tamanho normal */
         transform: scale(1);
     }
+}
+/* --- PÁGINA DA RÁDIO (PLAYER) --- */
+.radio-player {
+    text-align: center;
+    padding: 30px 20px;
+}
+#radio-status {
+    font-size: 28px;
+    height: 40px; /* Altura fixa para não "pular" */
+    margin-bottom: 20px;
+}
+.radio-placeholder {
+    animation: radio-flicker 2.5s infinite alternate;
+}
+.radio-controls button {
+    margin: 20px 10px;
+    font-size: 28px;
+}
+.volume-control {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.volume-control label {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+/* Estilizando o slider de volume (range) */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 50%;
+    background: transparent;
+}
+input[type="range"]:focus {
+    outline: none;
+}
+
+/* --- Track (a barra) --- */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: rgba(50, 255, 50, 0.3);
+    border: 1px solid #32FF32;
+}
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: rgba(50, 255, 50, 0.3);
+    border: 1px solid #32FF32;
+}
+
+/* --- Thumb (o pino) --- */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 2px solid #32FF32;
+    height: 25px;
+    width: 10px;
+    background: #32FF32;
+    cursor: pointer;
+    margin-top: -8px; /* Centraliza o pino na barra */
+    box-shadow: 0 0 10px #32FF32;
+}
+input[type="range"]::-moz-range-thumb {
+    border: 2px solid #32FF32;
+    height: 25px;
+    width: 10px;
+    background: #32FF32;
+    cursor: pointer;
+    box-shadow: 0 0 10px #32FF32;
 }
