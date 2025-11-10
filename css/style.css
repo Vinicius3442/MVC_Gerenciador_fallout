@@ -1,0 +1,223 @@
+/* css/style.css */
+
+/* --- GERAL (PIP-BOY) --- */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.4) 100% 2px
+    );
+    background-size: 100% 3px;
+    pointer-events: none;
+    z-index: 999;
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+body {
+    background-color: #000000;
+    color: #32FF32; /* Verde fósforo */
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #32FF32, 0 0 10px #32FF32;
+}
+
+.container {
+    width: 90%;
+    margin: 20px auto;
+    border: 3px solid #32FF32;
+    padding: 15px;
+    box-shadow: 0 0 20px #32FF32 inset;
+    background-color: rgba(0, 20, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+    letter-spacing: 5px;
+    margin: 10px 0 20px 0;
+}
+
+/* --- LINKS --- */
+a {
+    color: #32FF32;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #FFFFFF;
+    background-color: #32FF32;
+    text-shadow: none;
+}
+
+/* --- TABELA (LISTAR.PHP) --- */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+    border: 1px solid #32FF32;
+}
+
+th, td {
+    border: 1px solid #32FF32;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #0d2a0d;
+    font-size: 24px;
+}
+
+.acoes a {
+    margin-right: 15px;
+}
+
+.acoes .excluir:hover {
+    color: #FFFFFF;
+    background-color: #FF0000;
+}
+
+.acoes .editar:hover {
+    background-color: #00BFFF;
+}
+
+.novo-produto {
+    display: block;
+    width: 100%;
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+.novo-produto a::before {
+    content: "[+ ADICIONAR ITEM]";
+}
+.novo-produto a:hover::before {
+    content: "[+ ADICIONAR ITEM]";
+}
+
+/* --- FORMULÁRIOS (ADICIONAR/EDITAR) --- */
+form {
+    border: 2px solid #32FF32;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: rgba(0, 20, 0, 0.2);
+}
+
+form p {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+input[type="text"],
+input[type="number"] {
+    background-color: #000;
+    color: #32FF32;
+    border: 2px solid #32FF32;
+    padding: 10px;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    width: 98%; /* Largura total - padding */
+    text-shadow: 0 0 5px #32FF32;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #32FF32;
+}
+
+button {
+    background-color: transparent;
+    color: #32FF32;
+    border: 2px solid #32FF32;
+    padding: 10px 20px;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-shadow: 0 0 5px #32FF32;
+    margin-right: 15px;
+}
+
+button:hover {
+    background-color: #32FF32;
+    color: #000;
+    text-shadow: none;
+}
+
+/* Link de voltar */
+.voltar {
+    font-size: 24px;
+    margin-top: 20px;
+    display: inline-block;
+}
+.voltar a::before {
+    content: "[< VOLTAR AO INVENTÁRIO]";
+}
+/* --- CABEÇALHO COM MENUS (views/template.php) --- */
+.header-menu {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid #32FF32;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header-menu a {
+    font-size: 1.8em;
+    padding: 5px 15px;
+    border: 1px solid transparent;
+}
+
+.header-menu a:hover, .header-menu a.active {
+    background-color: rgba(50, 255, 50, 0.2); /* Fundo semi-transparente verde */
+    border-color: #32FF32;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+/* --- VAULT BOY CARREGANDO --- */
+.loading-vault-boy {
+    position: fixed; /* Fixa na tela */
+    bottom: 20px;
+    right: 20px;
+    width: 100px; /* Tamanho do Vault Boy */
+    height: auto;
+    display: none; /* Começa escondido, JS vai mostrar */
+    animation: walkAndFlicker 1s infinite steps(1); /* Animação de caminhada */
+    filter: drop-shadow(0 0 5px #32FF32); /* Brilho verde */
+    z-index: 1000;
+}
+
+@keyframes walkAndFlicker {
+    0% { transform: translateX(0px) translateY(0px) rotate(0deg); opacity: 0.8; }
+    25% { transform: translateX(5px) translateY(-2px) rotate(2deg); opacity: 1; }
+    50% { transform: translateX(0px) translateY(0px) rotate(0deg); opacity: 0.8; }
+    75% { transform: translateX(-5px) translateY(2px) rotate(-2deg); opacity: 1; }
+    100% { transform: translateX(0px) translateY(0px) rotate(0deg); opacity: 0.8; }
+}
+
+/* --- Título dentro do container (para o Vault Boy não ficar embaixo) --- */
+.container h1 {
+    margin-top: 0;
+}
