@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SISTEMA R.O.B.CO - PORTABLE</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      /* Garante que as views funcionem como SPA */
+      .view-section { display: none; height: 100%; }
+      .view-section.active { display: block; animation: screenOn 0.3s; }
+
+      /* Boot Screen */
+      #boot-screen {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: black; z-index: 2000;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+      }
+      
+      /* Ajuste fino para ícones não ficarem colados no texto */
+      .header-menu i { margin-right: 5px; font-size: 0.8em; }
+      .stat-icon i { margin-right: 5px; }
+    </style>
+  </head>
+  <body>
+    <div id="boot-screen">
+      <div class="boot-content" style="text-align: center">
+        <h1><i class="fa-solid fa-terminal"></i> INICIANDO SISTEMA ROB.CO ...</h1>
+        <p id="boot-text-1" style="opacity: 0">VERIFICANDO INTEGRIDADE DOS MÓDULOS...</p>
+        <p id="boot-text-2" style="opacity: 0">CARREGANDO DADOS DO INVENTÁRIO...</p>
+        <p id="boot-text-3" style="opacity: 0">SISTEMA PRONTO. AGUARDE...</p>
+      </div>
+    </div>
+
+    <div id="main-interface" class="container" style="display: none">
+      
+      <div class="header-menu">
+        <a href="#" data-target="stats"><i class="fa-solid fa-user"></i> STAT</a>
+        <a href="#" data-target="listar" class="active"><i class="fa-solid fa-box-open"></i> INV</a>
+        <a href="#" data-target="adicionar"><i class="fa-solid fa-pen-to-square"></i> REGIST</a>
+        <a href="#" data-target="dados"><i class="fa-solid fa-chart-pie"></i> DATA</a>
+        <a href="#" data-target="mapa"><i class="fa-solid fa-map-location-dot"></i> MAP</a>
+        <a href="#" data-target="radio"><i class="fa-solid fa-tower-broadcast"></i> RADIO</a>
+      </div>
+
+      <div id="view-stats" class="view-section">
+        <div class="sub-nav stats-sub-nav">
+          <a href="#" class="sub-nav-item active" data-subtab="status-page">STATUS</a>
+          <a href="#" class="sub-nav-item" data-subtab="special-page">S.P.E.C.I.A.L</a>
+          <a href="#" class="sub-nav-item" data-subtab="perks-page">PERKS</a>
+        </div>
+
+        <div class="stat-page-wrapper">
+          <div id="status-page" class="stat-main-content active">
+            <div class="status-dual-panel">
+              <div class="status-panel-left stats-monitor">
+                <div class="reticle-line v-line v-left"></div>
+                <div class="reticle-line v-line v-right"></div>
+                <div class="reticle-line h-line h-top"></div>
+                <div class="reticle-line h-line h-bottom"></div>
+                <img src="img/pipboy.gif" alt="Vault Boy" class="stats-vault-boy" />
+                
+                <div class="status-icons">
+                  <div class="stat-icon"><i class="fa-solid fa-crosshairs"></i> 18</div>
+                  <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i> 10</div>
+                  <div class="stat-icon"><i class="fa-solid fa-bolt"></i> 20</div>
+                  <div class="stat-icon"><i class="fa-solid fa-radiation"></i> 10</div>
+                </div>
+              </div>
+              <div class="status-panel-right">
+                <div class="body-diagram-container">
+                  <div class="body-part body-head"><div class="bar"></div></div>
+                  <div class="body-part body-torso"><div class="bar"></div></div>
+                  <div class="body-part body-arm-left"><div class="bar"></div></div>
+                  <div class="body-part body-arm-right"><div class="bar"></div></div>
+                  <div class="body-part body-leg-left"><div class="bar"></div></div>
+                  <div class="body-part body-leg-right"><div class="bar"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="special-page" class="stat-main-content">
+            <ul class="special-list-detailed">
+              <li><span class="special-letter">S</span><div class="special-info">STRENGTH<p>Força física bruta.</p></div><span class="special-value">5</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+              <li><span class="special-letter">P</span><div class="special-info">PERCEPTION<p>Consciência ambiental.</p></div><span class="special-value">7</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+              <li><span class="special-letter">E</span><div class="special-info">ENDURANCE<p>Resistência física.</p></div><span class="special-value">4</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+              <li><span class="special-letter">C</span><div class="special-info">CHARISMA<p>Habilidade de convencer.</p></div><span class="special-value">6</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+              <li><span class="special-letter">I</span><div class="special-info">INTELLIGENCE<p>Aptidão mental geral.</p></div><span class="special-value">8</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+              <li><span class="special-letter">A</span><div class="special-info">AGILITY<p>Reflexos e coordenação.</p></div><span class="special-value">5</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+              <li><span class="special-letter">L</span><div class="special-info">LUCK<p>Probabilidade e destino.</p></div><span class="special-value">5</span><div class="special-controls"><div class="level-btn"><i class="fa-solid fa-plus"></i></div></div></li>
+            </ul>
+          </div>
+
+          <div id="perks-page" class="stat-main-content">
+            <div class="perks-iframe-wrapper">
+              <iframe src="https://mmartinx.github.io/fo4/#eyJzIjpbIjEiLCIxIiwiMSIsIjEiLCIxIiwiMSIsIjEiXSwiciI6W119" class="perks-iframe"></iframe>
+            </div>
+          </div>
+
+          <div class="stats-footer">
+            <div class="bar-group hp-bar">
+              <div class="stat-bar-label">HP</div>
+              <div class="stat-bar"><div class="bar-fill" style="width: 100%"></div><div class="bar-text">115 / 115</div></div>
+            </div>
+            <div class="quick-items">STIMPAK (<span id="stat-stimpak-count">0</span>) | RADAWAY (<span id="stat-radaway-count">0</span>)</div>
+            <div class="bar-group level-bar">
+              <div class="stat-bar-label">LEVEL 6</div>
+              <div class="stat-bar"><div class="bar-fill" style="width: 30%"></div></div>
+            </div>
+            <div class="bar-group ap-bar">
+              <div class="stat-bar-label">AP</div>
+              <div class="stat-bar"><div class="bar-fill" style="width: 100%"></div><div class="bar-text">90 / 90</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-listar" class="view-section active">
+        <h1>[ INVENTÁRIO ]</h1>
+        <div class="pipboy-layout">
+          <div class="pipboy-left">
+            <div class="sub-nav" id="inv-categories"></div>
+            <div class="inventory-header"><span>ITEM</span><span class="header-value">VALOR</span></div>
+            <div class="item-lists" id="inv-lists-container"></div>
+          </div>
+          <div class="pipboy-right">
+            <div class="item-model-view"><img src="img/pipboy.gif" class="item-model-gif" /></div>
+            <div class="item-stats-view">
+              <h2 id="detail-nome">// SELECIONE //</h2>
+              <hr class="pipboy-hr-short" />
+              <p>VALOR: <span id="detail-preco">--</span> CAPS</p>
+              <p>CATEGORIA: <span id="detail-categoria">--</span></p>
+              <div class="item-actions-static">
+                <a href="#" id="btn-ir-editar" class="editar">[<i class="fa-solid fa-pen"></i> EDITAR]</a>
+                <a href="#" id="btn-ir-excluir" class="excluir">[<i class="fa-solid fa-trash"></i> EXCLUIR]</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-adicionar" class="view-section">
+        <h1>[ REGISTRAR NOVO ITEM ]</h1>
+        <div class="pipboy-layout">
+          <div class="pipboy-left form-panel">
+            <form id="form-adicionar">
+              <p><label>NOME DO ITEM:</label><input type="text" id="add-nome" required /></p>
+              <p><label>VALOR (CAPS):</label><input type="number" step="1" id="add-preco" required /></p>
+              <p><label>CATEGORIA:</label><input type="text" id="add-categoria" placeholder="Ex: Cura, Arma, Lixo" /></p>
+              <p class="form-actions">
+                <a href="#" data-target="listar" class="voltar">[< VOLTAR]</a>
+                <button type="submit">[SALVAR NOVO]</button>
+              </p>
+            </form>
+          </div>
+          <div class="pipboy-right">
+            <div class="item-model-view"><img src="img/pipboy.gif" alt="Vault Boy" class="item-model-gif" /></div>
+            <div class="item-stats-view">
+              <h2>// NOVO REGISTRO //</h2>
+              <hr class="pipboy-hr-short" />
+              <p><span>PREENCHA OS CAMPOS PARA ADICIONAR UM NOVO ITEM AO INVENTÁRIO.</span></p>
+              <p><span>CERTIFIQUE-SE DE QUE O VALOR EM CAPS ESTÁ CORRETO.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-editar" class="view-section">
+        <h1>[ EDITAR ITEM ]</h1>
+        <div class="pipboy-layout">
+          <div class="pipboy-left form-panel">
+            <form id="form-editar">
+              <input type="hidden" id="edit-id" />
+              <p><label>NOME:</label><input type="text" id="edit-nome" required /></p>
+              <p><label>VALOR:</label><input type="number" id="edit-preco" required /></p>
+              <p><label>CATEGORIA:</label><input type="text" id="edit-categoria" /></p>
+              
+              <p class="form-actions">
+                <a href="#" data-target="listar" class="voltar">[CANCELAR]</a>
+                <button type="submit">[ATUALIZAR]</button>
+              </p>
+            </form>
+          </div>
+          
+          <div class="pipboy-right">
+            <div class="item-model-view">
+              <img src="./img/pipboy.gif" alt="Vault Boy" class="item-model-gif" />
+            </div>
+            <div class="item-stats-view">
+              <h2>// EDITAR REGISTRO //</h2>
+              <hr class="pipboy-hr-short" />
+              <p><span>PREENCHA OS CAMPOS PARA EDITAR UM ITEM DO INVENTÁRIO.</span></p>
+              <p><span>CERTIFIQUE-SE DE QUE O VALOR EM CAPS ESTÁ CORRETO.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-dados" class="view-section">
+        <h1>[ DADOS DO SISTEMA ]</h1>
+        <div class="stat-card-container" id="data-cards"></div>
+        <hr class="pipboy-hr" />
+        <div class="chart-container"><canvas id="categoryChart"></canvas></div>
+        <hr class="pipboy-hr" />
+        <div class="weather-module">
+          <h3 id="weather-title">CLIMA</h3>
+          <div id="weather-content">...</div>
+        </div>
+      </div>
+
+      <div id="view-mapa" class="view-section">
+        <h1>[ MAPA DA COMMONWEALTH ]</h1>
+        <div class="map-window" id="map-window">
+            <div class="map-content" id="map-content">
+                <img src="./img/map.jpg" alt="Mapa" draggable="false">
+                
+            </div>
+        </div>
+        
+        <div class="map-controls-hint">
+            <p><i class="fa-solid fa-mouse"></i> ARRASTE PARA MOVER | ROOLL PARA ZOOM</p>
+        </div>
+      </div>
+
+      <div id="view-radio" class="view-section">
+        <h1>[ RÁDIO ]</h1>
+        <div class="radio-player">
+          <div class="tuning-box">
+            <input type="text" id="station-url" value="https://ice6.somafm.com/indiepop-128-mp3" />
+            <button id="tune-btn">[ SINTONIZAR ]</button>
+          </div>
+          <p id="radio-status" class="radio-placeholder">// AGUARDANDO SINAL //</p>
+          <div class="radio-controls">
+            <button id="play-btn">[ LIGAR ]</button>
+            <button id="stop-btn">[ DESLIGAR ]</button>
+          </div>
+          <div class="volume-control">
+            <label>VOL:</label><input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5" />
+          </div>
+        </div>
+        <audio id="radio-stream" preload="none"></audio>
+      </div>
+    </div>
+
+    <div id="loading-overlay"></div>
+    <audio id="uiBlipSound" src="./audio/start.mp3" preload="auto"></audio>
+    <audio id="crtGlitchSound" src="./audio/crt.mp3" preload="auto" loop></audio>
+    <img src="./img/loading.gif" alt="Loading" class="loading-vault-boy" id="loadingVaultBoy" />
+
+    <script src="./js/database.js"></script>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
